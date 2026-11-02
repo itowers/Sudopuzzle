@@ -2,7 +2,7 @@
 
 Jogo de encaixar blocos num tabuleiro 9×9. Complete linhas, colunas ou quadrados 3×3 para limpar e somar pontos.
 
-**Jogar:** https://itowers.github.io/sudopuzzle/
+**Jogar:** https://itowers.github.io/Sudopuzzle/
 
 ## Instalar no iPhone (offline)
 1. Abra o link acima no Safari.
