@@ -259,11 +259,12 @@ for(let r=0;r<N;r++)for(let c=0;c<N;c++){const d=document.createElement('div');d
   if(c===8)d.classList.add('er');if(r===8)d.classList.add('eb');
   boardEl.appendChild(d);cellEls.push(d);}
 function renderLines(){
-  const F=(r,c)=>r>=0&&r<N&&c>=0&&c<N&&board[r][c];let d='',D='';
+  const F=(r,c)=>r>=0&&r<N&&c>=0&&c<N&&board[r][c];let d='';
   for(let r=0;r<N;r++)for(let c=0;c<N;c++){
-    if(c<8&&(F(r,c)||F(r,c+1))){const p=`M${c+1} ${r}V${r+1}`;if(c%3===2)D+=p;else d+=p;}
-    if(r<8&&(F(r,c)||F(r+1,c))){const p=`M${c} ${r+1}H${c+1}`;if(r%3===2)D+=p;else d+=p;}}
-  $('lines').innerHTML=`<svg viewBox="0 0 9 9" preserveAspectRatio="none"><path d="${d}" stroke="#141a33" stroke-opacity=".75" stroke-width="1.2" vector-effect="non-scaling-stroke" fill="none" stroke-linecap="square"/><path d="${D}" stroke="#0b0f22" stroke-width="3.5" vector-effect="non-scaling-stroke" fill="none" stroke-linecap="square"/></svg>`;
+    if(c<8&&c%3!==2&&(F(r,c)||F(r,c+1)))d+=`M${c+1} ${r}V${r+1}`;
+    if(r<8&&r%3!==2&&(F(r,c)||F(r+1,c)))d+=`M${c} ${r+1}H${c+1}`;}
+  const D='M3 0V9M6 0V9M0 3H9M0 6H9';
+  $('lines').innerHTML=`<svg viewBox="0 0 9 9" preserveAspectRatio="none"><path d="${d}" stroke="#141a33" stroke-opacity=".75" stroke-width="1.2" vector-effect="non-scaling-stroke" fill="none" stroke-linecap="square"/><path d="${D}" stroke="#4a5068" stroke-width="3" vector-effect="non-scaling-stroke" fill="none"/></svg>`;
 }
 function renderBoard(){renderLines();for(let r=0;r<N;r++)for(let c=0;c<N;c++){const el=cellEls[r*N+c];
   el.classList.toggle('f',!!board[r][c]);el.classList.remove('g','w');}}
