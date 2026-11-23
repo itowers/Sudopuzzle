@@ -157,7 +157,7 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
     <p>Arraste as peças para o tabuleiro 9×9.</p>
     <p>Complete uma <b>linha</b>, uma <b>coluna</b> ou um <b>quadrado 3×3</b> para limpar.</p>
     <p>Limpar várias áreas de uma vez dá combo; limpar em jogadas seguidas dá sequência (multiplicador).</p>
-    <p>Você começa com 3 chaves e ganha mais uma a cada 100 pontos. Cada <b>Desfazer</b> ou <b>Dica</b> gasta 1 chave.</p>
+    <p>Você ganha uma chave a cada 100 pontos. Cada <b>Desfazer</b> ou <b>Dica</b> gasta 1 chave.</p>
     <p>O jogo acaba quando nenhuma peça cabe.</p>
     <button class="btn" id="closeHelp">Entendi</button>
   </div></div>
@@ -166,7 +166,7 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
 
 <script>
 (function(){
-const N=9,START_KEYS=3;
+const N=9,START_KEYS=0;
 const $=id=>document.getElementById(id);
 const boardEl=$('board'), dragEl=$('drag'), wrap=document.querySelector('.wrap');
 const slots=[...document.querySelectorAll('.slot')];
