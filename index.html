@@ -32,8 +32,11 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
 .land .next{font-size:13px}
 .land .hud .s{font-size:13px}
 .land .val{font-size:18px}
-.land .ctrls{flex-direction:column;align-self:start;margin-top:10px;gap:8px;width:100%}
-.land .cbtn{justify-content:center;padding:9px 10px}
+.land .ctrls{flex-direction:column;align-self:start;align-items:stretch;margin-top:10px;gap:6px;width:100%}
+.land .wallet{border-right:0;border-bottom:1.5px solid #dfe5f1;justify-content:center;padding:4px 0 7px;margin:0}
+.land .cbtn{justify-content:center;padding:8px 6px;font-size:13px;gap:4px}
+.land .cbtn>svg{display:none}
+.land .cost{padding:1px 5px;font-size:11px}
 .land .tray{grid-template-columns:1fr;grid-template-rows:repeat(3,1fr);align-items:stretch;height:100%;width:100%;margin:0;min-height:0}
 .land .slot{height:auto;min-height:0}
 .top{display:flex;justify-content:space-between;align-items:center;height:40px}
@@ -70,12 +73,20 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
 .slot.hinted .piece{animation:bob .45s ease-in-out infinite alternate}
 .slot.hinted .piece i{background:#f2b640;box-shadow:inset 0 0 0 1px #d0931a}
 @keyframes bob{to{transform:translateY(-6px)}}
-.ctrls{display:flex;gap:12px;justify-content:center;margin-top:10px}
-.cbtn{display:flex;align-items:center;gap:6px;border:0;background:#eef1f7;color:#1d2133;font-weight:600;font-size:15px;padding:10px 18px;border-radius:999px;cursor:pointer;font-family:inherit}
+.ctrls{display:flex;gap:6px;justify-content:center;align-items:center;margin-top:10px;background:#f3f5fa;border:1.5px solid #dfe5f1;border-radius:18px;padding:5px}
+.wallet{display:flex;align-items:center;gap:4px;color:var(--accent);padding:0 10px 0 8px;border-right:1.5px solid #dfe5f1;margin-right:2px;line-height:1}
+.wallet b{font-size:20px;font-weight:800}.wallet span{font-size:12px;font-weight:600;color:var(--muted)}
+.wallet.pulse{animation:wp .5s}
+@keyframes wp{40%{transform:scale(1.18)}}
+.wallet.empty{color:#c0453a}
+.next svg{vertical-align:-1px;color:var(--accent)}
+.ctrls{max-width:100%}
+@media (max-width:420px){.wallet span{display:none}.wallet{padding:0 8px 0 6px}.cbtn{font-size:14px;gap:5px;padding:8px 10px}}
+.cbtn{display:flex;align-items:center;gap:6px;border:0;background:#fff;box-shadow:0 1px 2px rgba(30,40,80,.08);color:#1d2133;font-weight:600;font-size:15px;padding:8px 11px;border-radius:999px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .cbtn svg{color:var(--accent);flex-shrink:0}
 .cbtn:disabled{opacity:.4;cursor:default}
-.cost{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted);background:#fff;border-radius:999px;padding:2px 6px;margin-left:2px}
-.cost svg{color:var(--muted)!important}
+.cost{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:700;color:var(--accent);background:#e8eefc;border-radius:999px;padding:2px 6px;margin-left:2px}
+.cost svg{color:var(--accent)!important}
 .btn:disabled{opacity:.45}
 .toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(29,33,51,.88);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;pointer-events:none;animation:fade 1.6s forwards}
 @keyframes fade{0%,80%{opacity:1}100%{opacity:0}}
@@ -109,12 +120,10 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
     </button>
   </div>
   <div class="hud">
-    <div class="s">Chaves
-      <div class="val"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2M19 4l1.5 1.5"/></svg><span id="keys">0</span></div>
-    </div>
+    <div class="s"></div>
     <div class="mid">
       <div id="score">0</div>
-      <div class="next">Próxima chave: <b id="nextKey">100</b></div>
+      <div class="next"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2M19 4l1.5 1.5"/></svg> +1 chave em <b id="nextKey">100</b></div>
       <div class="bar"><i id="bar"></i></div>
     </div>
     <div class="s side-r">Recorde
@@ -124,8 +133,9 @@ body{display:flex;justify-content:center;touch-action:none;user-select:none;-web
 </div>
   <div class="wrap"><div id="board"></div></div>
   <div class="ctrls">
-    <button class="cbtn" id="undoBtn" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Desfazer<span class="cost"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2"/></svg>1</span></button>
-    <button class="cbtn" id="hintBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Dica<span class="cost"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2"/></svg>1</span></button>
+    <div class="wallet" id="wallet" title="Chaves: gaste em Desfazer ou Dica"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2M19 4l1.5 1.5"/></svg><b id="keys">0</b><span>chaves</span></div>
+    <button class="cbtn" id="undoBtn" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Desfazer<span class="cost"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2"/></svg>−1</span></button>
+    <button class="cbtn" id="hintBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Dica<span class="cost"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="7" cy="16" r="4"/><path d="M10 13l9-9M16 7l2 2"/></svg>−1</span></button>
   </div>
   <div class="tray" id="tray">
     <div class="slot" data-i="0"></div><div class="slot" data-i="1"></div><div class="slot" data-i="2"></div>
@@ -255,7 +265,9 @@ function renderTray(){const s=trayCell();slots.forEach((sl,i)=>{const p=pieces[i
   if(!p){sl.innerHTML='';return;}const d=dims(p);
   sl.innerHTML=`<div class="piece" style="width:${d.w*s}px;height:${d.h*s}px">${pieceHTML(p,s)}</div>`;
   if(!fitsAnywhere(p))sl.classList.add('dead');});}
-function renderHud(){$('score').textContent=score;$('keys').textContent=keys;$('best').textContent=best;
+let lastKeys=null;function renderHud(){$('score').textContent=score;$('keys').textContent=keys;
+  const w=$('wallet');w.classList.toggle('empty',keys<1);if(lastKeys!==null&&keys!==lastKeys){w.classList.remove('pulse');void w.offsetWidth;w.classList.add('pulse');}lastKeys=keys;
+  $('best').textContent=best;
   $('nextKey').textContent=(Math.floor(score/100)+1)*100;$('bar').style.width=Math.max(8,(score%100))+'%';}
 function renderAll(){renderBoard();renderTray();renderHud();$('undoBtn').disabled=!history||keys<1;$('hintBtn').disabled=keys<1||over;$('overUndo').disabled=!history||keys<1;}
 
